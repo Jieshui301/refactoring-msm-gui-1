@@ -7,12 +7,14 @@ class MoviesController < ApplicationController
 
   def show
     the_id = params.fetch("path_id")
-    @the_movie = Movie.find(the_id)
-
+    matching_movies = Movie.where({ :id => the_id })
+    @the_movie = matching_movies.at(0)
+  
     render({ :template => "movie_templates/show" })
   end
 
   def create
+   
     @the_movie = Movie.new
     @the_movie.title = params.fetch("query_title")
     @the_movie.year = params.fetch("query_year")
@@ -31,7 +33,9 @@ class MoviesController < ApplicationController
 
   def update
     the_id = params.fetch("path_id")
-    @the_movie = Movie.find(the_id)
+    matching_movies = Movie.where({ :id => the_id })
+    @the_movie = matching_movies.at(0)
+    
 
     @the_movie.title = params.fetch("query_title")
     @the_movie.year = params.fetch("query_year")
@@ -50,7 +54,8 @@ class MoviesController < ApplicationController
 
   def destroy
     the_id = params.fetch("path_id")
-    @the_movie = Movie.find(the_id)
+    matching_movies = Movie.where({ :id => the_id })
+    @the_movie = matching_movies.at(0)
 
     @the_movie.destroy
 
